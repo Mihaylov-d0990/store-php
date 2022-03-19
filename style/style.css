@@ -452,11 +452,6 @@ body {
     display: flex;
     flex-direction: column;
     row-gap: 5px; }
-  .register__login {
-    transition: 0.3s;
-    padding: 5px 0px; }
-    .register__login:hover {
-      opacity: 0.7; }
   .register__register {
     cursor: pointer;
     transition: 0.3s; }

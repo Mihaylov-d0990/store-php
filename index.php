@@ -21,7 +21,7 @@
                     $price = $row['price'];
                     $image = $row['image'];
                     echo '<div class="list__item">
-                            <a href="$row" class="list__image">
+                            <a href="product.php" class="list__image">
                                 <img src="' . $image . '" alt="">
                             </a>
                             <div class="list__item-bottom">
