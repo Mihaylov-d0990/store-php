@@ -84,7 +84,6 @@
             <div class="register__error">
                 <?php 
                     echo $error_message;
-                    // echo $_POST['password'] == $_POST['r_password'];
                 ?>
             </div>
             <div class="register__form">

@@ -36,7 +36,7 @@
                                 </div>
                                 <div class="list__cart">
                                     <div class="list__cart-image">
-                                        <img src="images/cart.svg" alt="">
+                                        <img src="images/cart.svg" alt="" onclick="cartAddItem(' . $id . ');">
                                     </div>
                                 </div>
                             </div>

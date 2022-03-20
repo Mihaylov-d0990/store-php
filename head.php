@@ -26,6 +26,8 @@
             if (mysqli_num_rows($result)) $user_signed = true;
         }
     }
+
+    echo $_POST['id'];
 ?>
 
 <!DOCTYPE html>

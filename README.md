@@ -1,1 +1,0 @@
-# store-layout.github.io
