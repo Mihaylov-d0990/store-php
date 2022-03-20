@@ -24,8 +24,8 @@
         if (mysqli_num_rows($result) == 1) {
             $result = $result->fetch_assoc();
             if (isset($_POST['signed'])) {
-                setcookie("login", $result['login'], time() + 3600);
-                setcookie("password", $result['password'], time() + 3600);
+                setcookie("login", $result['login'], time() + 2592e4);
+                setcookie("password", $result['password'], time() + 2592e4);
             } else {
                 $_SESSION['login']    = $result['login'];
                 $_SESSION['password'] = $result['password'];

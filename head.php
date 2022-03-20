@@ -2,6 +2,30 @@
     $connection = mysqli_connect("localhost", "root", "", "store");
     $mainPageLink = "index.php";
     session_start();
+
+    $user_signed = false;
+    if (isset($_POST['exit'])) {
+        if (isset($_COOKIE['login']) && isset($_COOKIE['password'])) {
+            setcookie("login", $result['login'], time() - 2592e4);
+            setcookie("password", $result['password'], time() - 2592e4);
+        } else if (isset($_SESSION['login']) && isset($_SESSION['password'])) {
+            unset($_SESSION['login']);
+            unset($_SESSION['password']);
+        }
+        $user_signed = false; 
+    } else {
+        if (isset($_COOKIE['login']) && isset($_COOKIE['password'])) {
+            $cookie_login    = $_COOKIE['login'];
+            $cookie_password = $_COOKIE['password'];
+            $result          = $connection->query("SELECT * FROM `user` WHERE `login` = '$cookie_login' AND `password` = '$cookie_password'");
+            if (mysqli_num_rows($result)) $user_signed = true;
+        } else if (isset($_SESSION['login']) && isset($_SESSION['password'])) {
+            $session_login    = $_SESSION['login'];
+            $session_password = $_SESSION['password'];
+            $result           = $connection->query("SELECT * FROM `user` WHERE `login` = '$session_login' AND `password` = '$session_password'");
+            if (mysqli_num_rows($result)) $user_signed = true;
+        }
+    }
 ?>
 
 <!DOCTYPE html>
@@ -31,15 +55,24 @@
                                 <input type="text">
                                 <button>Search</button>
                             </div>
-                            <div class="head__profile">
-                                <a href="login.php">
-                                    <div class="head__login">
-                                        <img src="images/profile.svg" alt="">
-                                    </div>
-                                </a>
+                            <div class="head__profile"> 
+                                <?php 
+                                    if ($user_signed) {
+                                        echo '<form action="#" method="POST">
+                                                <input type="hidden" name="exit" />
+                                                <input type="image" src="images/exit.svg" />
+                                            </form>';
+                                    } else {
+                                        echo '<a href="login.php">
+                                                    <div class="head__login">
+                                                        <img src="images/profile.svg" alt="" />
+                                                    </div>
+                                                </a>';
+                                    }
+                                ?>
                                 <a href="cart.php">
                                     <div class="head__basket">
-                                        <img src="images/cart.svg" alt="">
+                                        <img src="images/cart.svg" alt="" />
                                     </div>
                                 </a>
                             </div>
