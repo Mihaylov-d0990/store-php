@@ -656,6 +656,12 @@ body {
             flex-direction: column;
             row-gap: 5px;
 
+            label {
+                display: flex;
+                align-items: center;
+                column-gap: 10px;
+            }
+
             input {
                 height: 35px;
                 border: none;

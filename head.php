@@ -1,6 +1,7 @@
 <?php 
     $connection = mysqli_connect("localhost", "root", "", "store");
     $mainPageLink = "index.php";
+    session_start();
 ?>
 
 <!DOCTYPE html>

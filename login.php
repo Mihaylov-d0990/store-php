@@ -1,20 +1,19 @@
 <?php 
-    session_start();
     require_once "head.php";
     $dividingTitle = "Login";
     require_once "dividingTitle.php";
 
-    $_SESSION['login']    = $_POST['login'];
-    $_SESSION['password'] = $_POST['password'];
-    $_SESSION['signed']   = $_POST['signed'];
+    $_SESSION['s_login']    = $_POST['login'];
+    $_SESSION['s_password'] = $_POST['password'];
+    $_SESSION['signed']     = $_POST['signed'];
 
-    $error_message = "";
-    $user_error = ""; 
-    $login_error          = (strlen(trim($_POST['login'])) != 0) || !isset($_POST['login']) ? "" : "Login field is empty";
-    $password_error       = (strlen(trim($_POST['password'])) != 0) || !isset($_POST['password']) ? "" : "Password field is empty";
+    $error_message          = "";
+    $user_error             = ""; 
+    $login_error            = (strlen(trim($_POST['login'])) != 0) || !isset($_POST['login']) ? "" : "Login field is empty";
+    $password_error         = (strlen(trim($_POST['password'])) != 0) || !isset($_POST['password']) ? "" : "Password field is empty";
 
-    $login = $_POST['login'];
-    $password = $_POST['password'];
+    $login                  = $_POST['login'];
+    $password               = $_POST['password'];
 
     $result = $connection->query("SELECT `login`, `password` 
     FROM `user` WHERE 
@@ -24,6 +23,17 @@
     if (isset($_POST['login']) && isset($_POST['password'])) {
         if (mysqli_num_rows($result) == 1) {
             $result = $result->fetch_assoc();
+            if (isset($_POST['signed'])) {
+                setcookie("login", $result['login'], time() + 3600);
+                setcookie("password", $result['password'], time() + 3600);
+            } else {
+                $_SESSION['login']    = $result['login'];
+                $_SESSION['password'] = $result['password'];
+            }
+            unset($_SESSION['s_login']);
+            unset($_SESSION['s_password']);
+            unset($_SESSION['signed']);
+            header("Location: $mainPageLink");
         } else {
             $user_error = "User is not exist";
         }
@@ -36,6 +46,9 @@
             break;
         }
     }
+
+
+
 ?>
 <div class="login">
     <div class="container">
@@ -49,11 +62,11 @@
                 <form action="login.php" method="POST">
                     <div class="login__input">
                         <span>Login</span>
-                        <input type="text" name="login" value="<?php echo $_SESSION['login']; ?>"/>
+                        <input type="text" name="login" value="<?php echo $_SESSION['s_login']; ?>"/>
                     </div>
                     <div class="login__input">
                         <span>Password</span>
-                        <input type="text" name="password" value="<?php echo $_SESSION['password']; ?>"/>
+                        <input type="text" name="password" value="<?php echo $_SESSION['s_password']; ?>"/>
                     </div>
                     <label><input type="checkbox" name="signed" <?php if(isset($_SESSION['signed'])) echo "checked"; ?>/><span>Keep me Signed in</span></label>
                     <input type="submit" value="Log in" />
